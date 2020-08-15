@@ -1,0 +1,15 @@
+mqtt:
+  host: yourMqttHost
+  user: mqttUser
+  password: mqttPassword
+influx:
+  host: yourInfluxdbHost
+  user: influxdbUser
+  password: influxdbPassword
+  database: aDatabaseName
+nodes:
+  - name: weather
+    regex: "(?P<node_name>token_pattern)/(?P<measurement_name>token_pattern)"
+  - name: sensors
+    regex: "(?P<node_name>token_pattern)/(?P<room>token_pattern)/(?P<measurement_name>token_pattern)/(token_pattern)"
+verbose: true

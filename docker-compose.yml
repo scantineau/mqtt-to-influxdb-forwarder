@@ -1,0 +1,15 @@
+version: '3'
+services:
+  mqtt2influxdb:
+    image: scantineau/mqtt2influxdb:latest
+    container_name: mqtt2influxdb
+    networks:
+      - net
+    environment:
+      - TZ=Europe/Brussels
+    volumes:
+      - ./mqtt2influxdb/:/config/:ro
+    restart: always
+networks:
+  net:
+    external: true
