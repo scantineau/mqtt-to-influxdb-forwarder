@@ -50,8 +50,8 @@ A simple weather station with some sensors may publish its data like this:
     weather/pressure: 1010.77 (hPa)
     weather/bat: 4.55 (V)
 
-Here, 'weather' is the node name and 'humidity', 'light' and 'temperature' are
-measurement names. 0, 18.80, 1010.88 and 4.55 are measurement values. The units
+Here, 'weather' is the node name and 'uv', 'temp', 'pressure' and 'bat' are
+measurement names. 0, 18.80, 1010.70 and 4.55 are measurement values. The units
 are not transmitted, so any consumer of the data has to know how to interpret
 the raw values.
 
@@ -111,13 +111,13 @@ named 'value'.
 An example translation for a complex measurement:
 
     DEBUG:forwarder.MQTTSource:Received MQTT message for topic heaterroom/boiler-led with payload {"valid":true,"dark_duty_cycle":0,"color":"amber"}
-    DEBUG:forwarder.InfluxStore:Writing InfluxDB point: {'fields': {u'color': u'amber', u'valid': 1.0, u'dark_duty_cycle': 0.0}, 'tags': {'sensor_node': 'heaterroom'}, 'measurement': 'boiler-led'}
+    DEBUG:forwarder.InfluxStore:Writing InfluxDB point: {'fields': {u'color': u'amber', u'valid': 1.0, u'dark_duty_cycle': 0.0}, 'tags': {'node_name': 'heaterroom'}, 'measurement': 'boiler-led'}
 
 
 ### Example InfluxDB query ###
 
     select value from bat;
-    select value from bat where sensor_node = 'weather' limit 10;
+    select value from bat where node_name = 'weather' limit 10;
     select value from bat,uv,temp,pressure limit 20; 
 
 The data stored in InfluxDB via this forwarder are easily visualized with [Grafana](http://grafana.org/)
