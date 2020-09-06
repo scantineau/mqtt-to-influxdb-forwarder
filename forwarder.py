@@ -29,6 +29,8 @@ import sys
 import yaml
 from influxdb import InfluxDBClient
 
+cache = {}
+
 
 class MessageStore(object):
 
@@ -164,6 +166,15 @@ class MQTTSource(MessageSource):
                         pass
                 self.logger.debug(value)
                 stored_message = {'value': value}
+
+            global cache
+            self.logger.debug("measurement_name : %s | data : %s", measurement_name, value)
+            self.logger.debug("cache : %s", cache)
+            if measurement_name in cache and cache[measurement_name] == value:
+                self.logger.info("value did not changed for : %s, skipping", measurement_name)
+            else:
+                cache[measurement_name] = value
+
 
             self.logger.debug("Going to store")
             for store in self.stores:
